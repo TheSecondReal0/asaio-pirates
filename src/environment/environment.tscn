@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://environment/ocean/ocean.tscn" type="PackedScene" id=1]
+
+[node name="environment" type="Node2D"]
+
+[node name="ocean_layer" parent="." instance=ExtResource( 1 )]
