@@ -46,11 +46,11 @@ func _process(delta: float):
 		speed -= speed_damp * delta
 		if speed < 0:
 			speed = 0
-	if angular_momentum < 0:
-		angular_momentum += ang_damp * delta
-		if angular_momentum > 0:
-			angular_momentum = 0
-	else:
-		angular_momentum -= ang_damp * delta
-		if angular_momentum < 0:
-			angular_momentum = 0
+#	if angular_momentum < 0:
+#		angular_momentum += ang_damp * delta
+#		if angular_momentum > 0:
+#			angular_momentum = 0
+#	else:
+#		angular_momentum -= ang_damp * delta
+#		if angular_momentum < 0:
+#			angular_momentum = 0
