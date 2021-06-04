@@ -24,6 +24,13 @@ config/name="Asaio Pirates"
 run/main_scene="res://main/main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+MapServer="*res://autoload/mapserver.gd"
+PathServer="*res://autoload/pathserver.gd"
+ResourceManager="*res://autoload/resourcemanager.gd"
+Helpers="*res://autoload/helpers.gd"
+
 [input]
 
 up={

@@ -46,15 +46,15 @@ var interactions: Array = []
 
 # whether or not you can command this tile to do something
 #var commandable: bool
-var texture: Texture = load("res://assets/common/textures/square.png")
+var texture: Texture = load("res://common/textures/hexagons/white_hex_256x256.png")
 var modulate: Color = Color(1, 1, 1, 1)
-var scale: Vector2 = Vector2(4, 4)
+var scale: Vector2 = Vector2(.25, .25)
 
-var base_path: String = "res://games/pawn_game/map_components/tiles/tile_bases/base/base.tscn"
+var base_path: String = "res://environment/tiles/tile_bases/base.tscn"
 var base_scene: PackedScene = load(base_path)
 
-var destructible_path: String = "res://games/pawn_game/map_components/tiles/tile_components/destructible/destructible.tscn"
-var destructible_scene: PackedScene = load(destructible_path)
+#var destructible_path: String = "res://games/pawn_game/map_components/tiles/tile_components/destructible/destructible.tscn"
+#var destructible_scene: PackedScene = load(destructible_path)
 
 var tile_node: Node
 var sprite_node: Sprite
@@ -68,7 +68,7 @@ func gen_tile():
 		tile_node = tile
 		#tile_node.init_tile(gen_tile_data())
 	var tile: Node = tile_node.duplicate()
-	tile.init_tile(gen_tile_data())
+#	tile.init_tile(gen_tile_data())
 	return tile
 
 func gen_sprite(alpha: float = 0.5, z_index: int = 0):

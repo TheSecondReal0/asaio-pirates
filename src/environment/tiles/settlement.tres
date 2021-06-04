@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://common/textures/hexagons/white_hex_256x256.png" type="Texture" id=1]
+[ext_resource path="res://common/resources/tiletype/tiletype.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+type = "Settlement"
+desc = ""
+walkable = false
+sailable = false
+walk_cost = 10.0
+sail_cost = 10.0
+destructible = false
+health = 100
+texture/texture = ExtResource( 1 )
+texture/modulate = Color( 0.733333, 0, 1, 1 )
+texture/scale = Vector2( 0.25, 0.25 )

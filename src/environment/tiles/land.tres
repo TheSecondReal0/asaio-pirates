@@ -1,18 +1,18 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://common/resources/tiletype/tiletype.gd" type="Script" id=1]
-[ext_resource path="res://common/textures/hexagons/white_hex_32x32.png" type="Texture" id=2]
+[ext_resource path="res://common/textures/hexagons/white_hex_256x256.png" type="Texture" id=2]
 
 [resource]
 script = ExtResource( 1 )
-type = ""
+type = "Land"
 desc = ""
-walkable = false
+walkable = true
 sailable = false
 walk_cost = 10.0
 sail_cost = 10.0
 destructible = false
 health = 100
 texture/texture = ExtResource( 2 )
-texture/modulate = Color( 1, 1, 1, 1 )
-texture/scale = Vector2( 4, 4 )
+texture/modulate = Color( 0.87451, 0.819608, 0, 1 )
+texture/scale = Vector2( 0.25, 0.25 )
