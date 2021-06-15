@@ -8,4 +8,5 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	MapGenerator.init_map_gen()
+	pass
+	#MapGenerator.init_map_gen()

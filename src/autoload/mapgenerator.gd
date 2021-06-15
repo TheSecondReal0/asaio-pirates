@@ -35,6 +35,9 @@ var map_tile_types: Dictionary = {}
 
 signal map_generated(map_tile_types)
 
+func _ready():
+	init_map_gen()
+
 func init_map_gen():
 	randomize()
 	simplex_seed = randi()

@@ -18,7 +18,7 @@ func _ready():
 	MapServer.connect("islands_list_generated", self, "islands_list_generated")
 
 func islands_list_generated(_islands: Dictionary):
-	for _i in 10:
+	for _i in 3:
 		new_quest()
 
 func new_quest() -> String:

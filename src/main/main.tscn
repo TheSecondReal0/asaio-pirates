@@ -26,6 +26,8 @@ script = ExtResource( 3 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="quest_ui" type="Control" parent="CanvasLayer"]
+margin_left = 10.0
+margin_top = 10.0
 margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 5 )
