@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "AStar2D",
+"class": "DetAStar2D",
+"language": "GDScript",
+"path": "res://common/resources/astar/detastar2d.gd"
+}, {
 "base": "Resource",
 "class": "TileType",
 "language": "GDScript",
 "path": "res://common/resources/tiletype/tiletype.gd"
 } ]
 _global_script_class_icons={
+"DetAStar2D": "",
 "TileType": ""
 }
 
@@ -26,10 +32,13 @@ config/icon="res://icon.png"
 
 [autoload]
 
-MapServer="*res://autoload/mapserver.gd"
+MapGenerator="*res://autoload/mapgenerator.gd"
 PathServer="*res://autoload/pathserver.gd"
 ResourceManager="*res://autoload/resourcemanager.gd"
 Helpers="*res://autoload/helpers.gd"
+NameServer="*res://autoload/nameserver.gd"
+MapServer="*res://autoload/mapserver.gd"
+QuestServer="*res://autoload/questserver.gd"
 
 [input]
 

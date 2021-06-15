@@ -1,127 +1,97 @@
 extends Node
 
-export var map_width: int = 2048
-export var map_height: int = 2048
-export var use_fixed_seed: bool = false
-export var fixed_seed: int = 2360192022
-export var mountain_threshold: float = .1
-export var land_threshold: float = .15
-export var settlement_threshold: float = .25
+var tile_width: int = MapGenerator.tile_width
 
-var simplex: OpenSimplexNoise = OpenSimplexNoise.new()
-var simplex_seed: int = randi()#2360192022#randi()
+var map_tile_types: Dictionary = {}
 
-var map_gen_order: PoolStringArray = ["Land", "Settlement"]
+# {"island name": [tile group]}
+var islands: Dictionary
 
-const tile_width: int = 64
-
-var simplex_settings: Dictionary = {
-	"Land": {
-		"lacunarity": 2.0, 
-		"octaves": 4, 
-		"period": 24.0, 
-		"persistence": 0.5
-	}, 
-	
-	"Settlement": {
-		"lacunarity": 2.0, 
-		"octaves": 4, 
-		"period": 12.0, 
-		"persistence": 0.5
-	}, 
-}
-
-signal map_generated(map_tile_types)
+signal islands_list_generated(islands)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var top_left: Vector2 = Vector2(0, 0)
-	var bot_right: Vector2 = Vector2(128, 128)
-#	print(get_map_coords_between(top_left, bot_right))
-#	print(smart_get_map_coords_between(top_left, bot_right))
-#	if fixed_seed:
-#		simplex_seed = fixed_seed
-#	if get_tree().is_network_server():
-#		rpc("receive_seed", simplex_seed)
-#		generate_map()
+# warning-ignore:return_value_discarded
+	MapGenerator.connect("map_generated", self, "map_generated")
+	print(get_adjacent_tiles(Vector2(0, 0)))
 
-func generate_map():
-	print("generating map")
-	var map_layers: Dictionary = {}
-	for type in map_gen_order:
-		config_simplex(type)
-		map_layers[type] = gen_map_noise()
-#	print(map_layers)
-	var map_tile_types: Dictionary = {}
-	var land_layer: Dictionary = map_layers["Land"]
-	var settlement_layer: Dictionary = map_layers["Settlement"]
-	for coord in land_layer:
-		land_layer[coord] = pow(land_layer[coord], 2)
-		#coord = land_layer[coord]
-		if land_layer[coord] > land_threshold:
-			if settlement_layer[coord] > settlement_threshold:
-				map_tile_types[coord] = "Settlement"
+func map_generated(tile_types: Dictionary):
+	map_tile_types = tile_types
+	gen_island_list()
+#	print(islands)
+
+func gen_island_list():
+	var island_tile_groups: Array = find_island_tile_groups()
+	for tile_group in island_tile_groups:
+		islands[NameServer.get_random_island_name()] = tile_group
+	emit_signal("islands_list_generated", islands)
+
+func find_island_tile_groups() -> Array:
+	var island_groups: Array = []
+	for coord in map_tile_types:
+		if map_tile_types[coord] == "Land":
+			var already_used: bool = false
+			for tile_group in island_groups:
+				if coord in tile_group:
+					already_used = true
+					break
+			if already_used:
 				continue
-			map_tile_types[coord] = "Land"
-			continue
-		else:# land_layer[coord] < land_threshold:
-			map_tile_types[coord] = "Ocean"
-			continue
-#	for coord in map_coord_noise:
-#		map_tile_types[coord] = noise_to_tile_type(map_coord_noise[coord])
-	emit_signal("map_generated", map_tile_types)
-	return map_tile_types
+			var island_coords: PoolVector2Array = get_tile_type_group(coord, "Land").keys()
+#			if not island_coords in island_groups:
+			island_groups.append(island_coords)
+	return island_groups
 
-puppet func receive_seed(map_seed: int):
-	simplex_seed = map_seed
-	generate_map()
+func get_tile_type_group(coord: Vector2, type: String, excluded: Array = []) -> Dictionary:
+	var tiles: Dictionary = {}
+	var to_check: Array = [coord]
+	while not to_check.empty():
+		for vec in to_check:
+			var adjacent: Dictionary = get_adjacent_tiles_of_type(vec, type, true)
+			for tile_coord in adjacent:
+				if tile_coord in tiles:
+					continue
+				tiles[tile_coord] = adjacent[tile_coord]
+				to_check.append(tile_coord)
+			to_check.erase(vec)
+	for coord in tiles:
+		if coord in excluded:
+# warning-ignore:return_value_discarded
+			tiles.erase(coord)
+	return tiles
 
-func gen_map_noise() -> Dictionary:
-	var coord_noise = get_coord_noise()
-	var map_noise: Dictionary = {}
-	for coord in coord_noise:
-		map_noise[coord] = coord_noise[coord]
-	return map_noise
+func get_adjacent_tiles_of_type(coord: Vector2, type: String, include_self: bool = false) -> Dictionary:
+	var tiles: Dictionary = {}
+	var adjacent: Dictionary = get_adjacent_tiles(coord)
+	if include_self:
+		adjacent[coord] = type
+	for coord in adjacent:
+		if adjacent[coord] == type:
+			tiles[coord] = adjacent[coord]
+	return tiles
 
-func get_coord_noise() -> Dictionary:
-# warning-ignore:integer_division
-# warning-ignore:integer_division
-	var top_left: Vector2 = Vector2(map_width / 2, map_height / 2) * -1# * tile_width
-	var bot_right: Vector2 = Vector2(map_width / 2, map_height / 2)# * tile_width
-#	print(top_left)
-#	print(bot_right)
-	var map_coords: Array = smart_get_map_coords_between(top_left, bot_right)
-#	print(map_coords)
-	var coord_noise: Dictionary = {}
-	for coord in map_coords:
-			coord_noise[coord] = simplex.get_noise_2d(coord.x, coord.y)
-	return coord_noise
+func get_adjacent_tiles(coord: Vector2, include_self: bool = false) -> Dictionary:
+	var coords: Array = []
+	coords.append(coord - Vector2(tile_width, 0))
+	coords.append(coord + Vector2(tile_width, 0))
+	coords.append(coord - Vector2(tile_width * .5, tile_width * .75))
+	coords.append(coord + Vector2(tile_width * .5, tile_width * .75))
+	coords.append(coord - Vector2(tile_width * .5, -tile_width * .75))
+	coords.append(coord + Vector2(tile_width * .5, -tile_width * .75))
+	if include_self:
+		coords.append(coord)
+	var tiles: Dictionary = {}
+	for vec in coords:
+		if vec in map_tile_types:
+			tiles[vec] = map_tile_types[vec]
+	return tiles
 
-func config_simplex(type: String):
-	simplex.seed = simplex_seed
-	for prop in simplex_settings[type]:
-		simplex.set(prop, simplex_settings[type][prop])
-
-#func get_map_coords_between(vec1: Vector2, vec2: Vector2) -> Array:
-#	var top_left: Vector2 = Vector2(min(vec1.x, vec2.x), min(vec1.y, vec2.y))
-#	var bot_right: Vector2 = Vector2(max(vec1.x, vec2.x), max(vec1.y, vec2.y))
-#	var height: int = int(bot_right.y - top_left.y) / tile_width
-#	var width1: int = int(bot_right.x - top_left.x) / tile_width
-#	var width2: int = (int(bot_right.x - top_left.x) - 1) / tile_width
-#	var coords: Array = []
-#	for h in height:
-#		if height % 2 == 0:
-#			for w in width1:
-#				coords.append(Vector2(tile_width * h, tile_width * w))
-#		else:
-#			for w in width2:
-#				coords.append(Vector2(tile_width * h, (tile_width * w) + (tile_width / 2)))
-#	return coords
-
-func smart_get_map_coords_between(vec1: Vector2, vec2: Vector2) -> Array:
+func get_map_coords_between(vec1: Vector2, vec2: Vector2) -> Array:
 	var top_left: Vector2 = Vector2(min(vec1.x, vec2.x), min(vec1.y, vec2.y))
 	var bot_right: Vector2 = Vector2(max(vec1.x, vec2.x), max(vec1.y, vec2.y))
+# warning-ignore:integer_division
 	var height: int = int(bot_right.y - top_left.y) / tile_width
+# warning-ignore:integer_division
 	var width: int = int(bot_right.x - top_left.x) / tile_width
 	var coords: Array = []
 	for h in height:

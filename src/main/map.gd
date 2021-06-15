@@ -18,7 +18,7 @@ func _ready():
 	reference_sprite.texture = sprite_texture
 	reference_sprite.z_index = -3
 	#var coords: Array = MapServer.smart_get_map_coords_between(Vector2(0, 0), Vector2(2048, 2048))
-	var map_tile_types: Dictionary = MapServer.generate_map()
+	var map_tile_types: Dictionary = MapGenerator.generate_map()
 	for coord in map_tile_types:
 		queue_place_tile(coord, map_tile_types[coord])
 

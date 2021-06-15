@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="label" type="Label"]
+grow_horizontal = 2
+grow_vertical = 2
+align = 1
+valign = 1
