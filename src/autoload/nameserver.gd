@@ -11,7 +11,7 @@ func _ready():
 
 func get_random_pirate_name(unique: bool = false) -> String:
 	var titles: PoolStringArray = ["Captain", "Dread Pirate", "One-Eyed", "Quartermaster"]
-	var first_names: PoolStringArray = ["Robert", "Jack", "Will", "James", "Bart", "Henry", "Edward", "Duncan"]
+	var first_names: PoolStringArray = ["Robert", "Jack", "William", "James", "Bart", "Henry", "Edward", "Duncan"]
 	var last_names: PoolStringArray = ["Roberts", "Kidd", "Morgan", "Kenway"]
 	var all_names: PoolStringArray = first_names + last_names
 	var exclude: Array = []
@@ -31,7 +31,7 @@ func get_random_island_name() -> String:
 		rand_list.append(false)
 	for _i in end_locations:
 		rand_list.append(true)
-	start_with_phrase = pick_random(rand_list)
+	start_with_phrase = Helpers.pick_random(rand_list)
 	var island_name: String
 	if start_with_phrase:
 		island_name = gen_name(begin_phrases, " ", end_locations, island_names)
@@ -65,6 +65,3 @@ func gen_name(beginnings: Array, join: String, endings: Array, exclude: Array):
 		current_ending = endings[current_end_index]
 		new_name = current_beginning + join + current_ending
 	return new_name
-
-func pick_random(list: Array):
-	return list[randi() % list.size()]

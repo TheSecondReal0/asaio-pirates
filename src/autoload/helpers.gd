@@ -1,5 +1,8 @@
 extends Node
 
+func pick_random(list: Array):
+	return list[randi() % list.size()]
+
 func load_files_in_dir_with_exts(directory: String, exts: PoolStringArray) -> Array:
 	var paths: Array = get_file_paths_in_dir_with_exts(directory, exts)
 	var resources: Array = []
