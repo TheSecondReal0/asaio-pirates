@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://environment/tiles/tile_bases/land_base/land_base.gd" type="Script" id=1]
+
+[node name="land_base" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PoolVector2Array( 0, -32, 27.7128, -16, 27.7128, 16, 0, 32, -27.7128, 16, -27.7128, -16 )

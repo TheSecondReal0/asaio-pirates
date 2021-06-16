@@ -5,7 +5,8 @@ var tile_width: int = MapGenerator.tile_width
 var map_tile_types: Dictionary = {}
 
 # {"island name": [tile group]}
-var islands: Dictionary
+var islands: Dictionary = {}
+var island_coord_names: Dictionary = {}
 
 signal islands_list_generated(islands)
 
@@ -23,7 +24,10 @@ func map_generated(tile_types: Dictionary):
 func gen_island_list():
 	var island_tile_groups: Array = find_island_tile_groups()
 	for tile_group in island_tile_groups:
-		islands[NameServer.get_random_island_name()] = tile_group
+		var island_name: String = NameServer.get_random_island_name()
+		islands[island_name] = tile_group
+		for coord in tile_group:
+			island_coord_names[coord] = island_name
 	emit_signal("islands_list_generated", islands)
 
 func find_island_tile_groups() -> Array:
@@ -41,6 +45,9 @@ func find_island_tile_groups() -> Array:
 #			if not island_coords in island_groups:
 			island_groups.append(island_coords)
 	return island_groups
+
+func get_island_at(coord: Vector2) -> String:
+	return island_coord_names[coord]
 
 func get_tile_type_group(coord: Vector2, type: String, excluded: Array = []) -> Dictionary:
 	var tiles: Dictionary = {}

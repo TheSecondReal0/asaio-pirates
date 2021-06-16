@@ -7,6 +7,7 @@
 script = ExtResource( 1 )
 type = "Land"
 desc = ""
+base_scene_path = "res://environment/tiles/tile_bases/land_base/land_base.tscn"
 walkable = true
 sailable = false
 walk_cost = 10.0

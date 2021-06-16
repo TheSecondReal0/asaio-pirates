@@ -37,6 +37,7 @@ func _process(delta: float):
 	angular_momentum = min(angular_momentum, max_ang)
 	angular_momentum = max(angular_momentum, min_ang)
 	rotation_degrees += angular_momentum * delta
+# warning-ignore:return_value_discarded
 	move_and_slide(Vector2(cos(rotation), sin(rotation)) * speed)
 	if speed < 0:
 		speed += speed_damp * delta

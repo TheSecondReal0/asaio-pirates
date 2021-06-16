@@ -4,6 +4,7 @@ var centered_label_scene: PackedScene = load("res://common/presets/labels/center
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+# warning-ignore:return_value_discarded
 	MapServer.connect("islands_list_generated", self, "islands_list_generated")
 	islands_list_generated(MapServer.islands)
 

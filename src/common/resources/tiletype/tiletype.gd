@@ -6,6 +6,7 @@ class_name TileType
 # editor options using export --------------------------------------------------
 export (String) var type
 export (String, MULTILINE) var desc
+export (String, FILE) var base_scene_path = "res://environment/tiles/tile_bases/base.tscn"
 export var walkable: bool
 export var sailable: bool
 export var walk_cost: float = 10.0
@@ -50,8 +51,8 @@ var texture: Texture = load("res://common/textures/hexagons/white_hex_256x256.pn
 var modulate: Color = Color(1, 1, 1, 1)
 var scale: Vector2 = Vector2(.25, .25)
 
-var base_path: String = "res://environment/tiles/tile_bases/base.tscn"
-var base_scene: PackedScene = load(base_path)
+#var base_path: String = base_scene_path
+var base_scene: PackedScene# = load(base_path)
 
 #var destructible_path: String = "res://games/pawn_game/map_components/tiles/tile_components/destructible/destructible.tscn"
 #var destructible_scene: PackedScene = load(destructible_path)
@@ -61,6 +62,7 @@ var sprite_node: Sprite
 
 func gen_tile():
 	if tile_node == null:
+		base_scene = load(base_scene_path)
 		var tile: Node = base_scene.instance()
 #		if destructible:
 #			tile.add_child(destructible_scene.instance())

@@ -39,6 +39,7 @@ Helpers="*res://autoload/helpers.gd"
 NameServer="*res://autoload/nameserver.gd"
 MapServer="*res://autoload/mapserver.gd"
 QuestServer="*res://autoload/questserver.gd"
+LootManager="*res://autoload/lootmanager.gd"
 
 [input]
 

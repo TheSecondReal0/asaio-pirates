@@ -55,6 +55,7 @@ func generate_map():
 #	print(map_layers)
 #	var map_tile_types: Dictionary = {}
 	var land_layer: Dictionary = map_layers["Land"]
+# warning-ignore:unused_variable
 	var settlement_layer: Dictionary = map_layers["Settlement"]
 	for coord in land_layer:
 		land_layer[coord] = pow(land_layer[coord], 2)
