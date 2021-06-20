@@ -12,6 +12,7 @@ func _ready():
 		new_quest(quest, QuestServer.quests[quest])
 
 func new_quest(quest_name: String, _quest_info: Dictionary):
+	print("creating new quest label: ", quest_name)
 	#print("new quest")
 	var label: Label = Label.new()
 	label.set("custom_colors/font_color", Color(0, 0, 0, 1))

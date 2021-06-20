@@ -19,6 +19,8 @@ func _ready():
 	init_tile()
 
 func new_quest(quest_name: String, quest_info: Dictionary):
+	if quest_info[QuestServer.info_keys.ISLAND] != island_name:
+		return
 	if not quest_name in quest_names:
 		quest_names.append(quest_name)
 	if not quest_name in quests:

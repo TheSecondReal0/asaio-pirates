@@ -7,7 +7,8 @@ var quests: Dictionary = {}
 # {"island name": "quest name"}
 var quests_by_island: Dictionary = {}
 
-enum info_keys {ISLAND, GOLD, PIRATE, TEXT}
+enum info_keys {ISLAND, GOLD, PIRATE, TEXT, TYPE}
+enum quest_types {BURIED_TREASURE, SHIPWRECK}
 
 signal new_quest(quest_name, quest_info)
 signal quest_completed(quest_name, quest_info)
@@ -27,6 +28,7 @@ func activate_quest(quest_name: String):
 	emit_signal("quest_activated", quest_name, quests[quest_name])
 
 func new_quest() -> String:
+	print("creating new quest")
 	var island: String = islands.keys()[randi() % islands.keys().size()]
 	while island in quests_by_island:
 		island = islands.keys()[randi() % islands.keys().size()]
@@ -46,7 +48,8 @@ func new_quest() -> String:
 	if not island in quests_by_island:
 		quests_by_island[island] = []
 	quests_by_island[island].append(quest_name)
-	emit_signal("new_quest", quest_name)
+	emit_signal("new_quest", quest_name, quest_info)
+	print("quest created: ", quest_name)
 	return quest_name
 
 func complete_quest(quest_name: String):
@@ -56,3 +59,4 @@ func complete_quest(quest_name: String):
 	quests_by_island[quests[quest_name][info_keys.ISLAND]].erase(quest_name)
 # warning-ignore:return_value_discarded
 	quests.erase(quest_name)
+	new_quest()
