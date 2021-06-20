@@ -11,7 +11,7 @@ func _ready():
 
 func get_random_pirate_name(unique: bool = false) -> String:
 	var titles: PoolStringArray = ["Captain", "Dread Pirate", "One-Eyed", "Quartermaster"]
-	var first_names: PoolStringArray = ["Robert", "Jack", "William", "James", "Bart", "Henry", "Edward", "Duncan"]
+	var first_names: PoolStringArray = ["Robert", "Jack", "William", "James", "Bart", "Henry", "Edward", "Duncan", "Matthew", "Thomas"]
 	var last_names: PoolStringArray = ["Roberts", "Kidd", "Morgan", "Kenway"]
 	var all_names: PoolStringArray = first_names + last_names
 	var exclude: Array = []
@@ -22,7 +22,7 @@ func get_random_pirate_name(unique: bool = false) -> String:
 
 func get_random_island_name() -> String:
 	var begin_locations: PoolStringArray = ["Isle", "Bay", "Cave"]
-	var end_locations: PoolStringArray = ["Bay", "Cay", "Isle", "Cavern", "Cove"]
+	var end_locations: PoolStringArray = ["Bay", "Cay", "Isle", "Cavern", "Cove", "Atoll"]
 	var begin_phrases: PoolStringArray = ["Smuggler's", "Rumrunner", "Lost", "Mermaid", "Glittering", "Kraken's", "Shipwreck", "Dead Man's"]
 	var end_phrases: PoolStringArray = ["Lost Treasure", "the Damned", "Whispers", "Rum"]
 	var start_with_phrase: bool = true
