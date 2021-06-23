@@ -45,8 +45,8 @@ func init_tile():
 func _on_area_body_entered(body: Node):
 	if not body.name == "player":
 		return
-	print("player anchored at " + island_name)
-	print(quest_names)
+#	print("player anchored at " + island_name)
+#	print(quest_names)
 	if not quest_names.size() > 0:
 		return
 	while not QuestServer.quests.has(quest_names[0]):

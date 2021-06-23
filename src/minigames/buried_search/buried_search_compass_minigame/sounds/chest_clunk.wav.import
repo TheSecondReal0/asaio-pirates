@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/chest_clunk.wav-aa95b7bc7cd10872fd8c2f021d6696d0.sample"
+
+[deps]
+
+source_file="res://minigames/buried_search/buried_search_compass_minigame/sounds/chest_clunk.wav"
+dest_files=[ "res://.import/chest_clunk.wav-aa95b7bc7cd10872fd8c2f021d6696d0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

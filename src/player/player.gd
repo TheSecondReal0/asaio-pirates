@@ -10,6 +10,8 @@ export var ang_damp: float = 5.0
 export var max_ang: float = 30.0
 var min_ang: float = -max_ang
 
+var movement_enabled: bool = true
+
 var speed: float = 0.0
 var angular_momentum: float = 0
 
@@ -18,6 +20,8 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta: float):
+	if not movement_enabled:
+		return
 	var accel: float = 0.0
 	var angular: float = 0.0
 	if Input.is_action_pressed("up"):
